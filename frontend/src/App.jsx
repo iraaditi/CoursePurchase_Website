@@ -44,7 +44,7 @@ const App = () => {
                 key: key, 
                 amount: orderData.order.amount, 
                 currency: "INR",
-                name: "My Course Platform",
+                name: "LCC Computer Center",
                 description: `Purchase: ${course.title}`,
                 order_id: orderData.order.id,
                 handler: async function (response) {
@@ -69,8 +69,8 @@ const App = () => {
                     }
                 },
                 prefill: {
-                    name: "John Doe",
-                    email: "johndoe@example.com",
+                    name: "Test User",
+                    email: "testuser@example.com",
                     contact: "9999999999"
                 },
                 theme: {
@@ -90,31 +90,68 @@ const App = () => {
         }
     };
 
-    if (loading) return <div>Loading courses...</div>;
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+        );
+    }
 
     return (
-        <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-            <h1>Available Courses</h1>
-            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-                {courses.map((course) => (
-                    <div key={course._id} style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px', width: '300px' }}>
-                        <img 
-                            src={course.imageUrl} 
-                            alt={course.title} 
-                            style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '4px' }} 
-                        />
-                        <h2>{course.title}</h2>
-                        <p>{course.description}</p>
-                        <h3>₹{course.price}</h3>
-                        <button 
-                            onClick={() => handlePayment(course)}
-                            style={{ padding: '10px 20px', backgroundColor: '#3399cc', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                        >
-                            Buy Now
-                        </button>
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 font-sans pb-12">
+            <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
+                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                    <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">
+                        LCC Computer Center
+                    </h1>
+                    <div className="text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors cursor-pointer">
+                        My Courses
                     </div>
-                ))}
-            </div>
+                </div>
+            </header>
+
+            <main className="max-w-7xl mx-auto px-6 mt-12">
+                <div className="mb-10 text-center md:text-left">
+                    <h2 className="text-4xl font-bold text-slate-900 tracking-tight mb-3">Explore Premium Courses</h2>
+                    <p className="text-lg text-slate-600 max-w-2xl">Level up your skills with our industry-leading curriculums and expert instructors.</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {courses.map((course) => (
+                        <div 
+                            key={course._id} 
+                            className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 transform hover:-translate-y-1"
+                        >
+                            <div className="relative h-48 overflow-hidden">
+                                <img 
+                                    src={course.imageUrl} 
+                                    alt={course.title} 
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                                />
+                            </div>
+                            
+                            <div className="p-6 flex flex-col flex-grow">
+                                <h3 className="text-xl font-bold text-slate-900 mb-2 leading-snug line-clamp-2">{course.title}</h3>
+                                <p className="text-slate-500 text-sm mb-6 flex-grow line-clamp-3">{course.description}</p>
+                                
+                                <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                                    <div className="flex flex-col">
+                                        <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">Price</span>
+                                        <span className="text-2xl font-extrabold text-slate-900">₹{course.price}</span>
+                                    </div>
+                                    <button 
+                                        onClick={() => handlePayment(course)}
+                                        className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
+                                    >
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </main>
         </div>
     );
 };
