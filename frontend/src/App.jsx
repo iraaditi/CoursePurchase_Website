@@ -5,10 +5,12 @@ const App = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/courses');
+                const response = await fetch(`${API_BASE_URL}/api/courses`);
                 const data = await response.json();
                 if (data.success) {
                     setCourses(data.courses);
@@ -25,10 +27,10 @@ const App = () => {
     const handlePayment = async (course) => {
         try {
 
-            const keyResponse = await fetch('http://localhost:5000/api/getkey');
+            const keyResponse = await fetch(`${API_BASE_URL}/api/getkey`);
             const { key } = await keyResponse.json();
 
-            const orderResponse = await fetch('http://localhost:5000/api/payment/checkout', {
+            const orderResponse = await fetch(`${API_BASE_URL}/api/payment/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ courseId: course._id })
@@ -49,7 +51,7 @@ const App = () => {
                 order_id: orderData.order.id,
                 handler: async function (response) {
 
-                    const verifyResponse = await fetch('http://localhost:5000/api/payment/verify', {
+                    const verifyResponse = await fetch(`${API_BASE_URL}/api/payment/verify`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
